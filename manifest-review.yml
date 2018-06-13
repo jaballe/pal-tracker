@@ -9,6 +9,9 @@ applications:
   - route: msg-pal-tracker-review.apps.pikes.pal.pivotal.io
   services:
   - tracker-database
+<<<<<<< HEAD
+>>>>>>> a9d26e2... Add tests for Database lab
+=======
 >>>>>>> a9d26e2... Add tests for Database lab
   env:
     WELCOME_MESSAGE: Hello from the review environment
