@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Create test database and migrate
           command: |
-            mysql -u root < databases/tracker/create_databases.sql
+            mysql -u root < databases/tracker/create_database.sql
             flyway-*/flyway -url="jdbc:mysql://localhost:3306/tracker_dotnet_test" -user=tracker_dotnet -password=beta@123  -locations=filesystem:databases/tracker clean migrate
       
       - run:
