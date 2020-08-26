@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PalTracker;
 using Xunit;
+using static Moq.Times;
 
 namespace PalTrackerTests
 {
@@ -11,11 +12,14 @@ namespace PalTrackerTests
     {
         private readonly TimeEntryController _controller;
         private readonly Mock<ITimeEntryRepository> _repository;
+        private readonly Mock<IOperationCounter<TimeEntry>> _operationCounter;
 
         public TimeEntryControllerTest()
         {
             _repository = new Mock<ITimeEntryRepository>();
-            _controller = new TimeEntryController(_repository.Object);
+            _operationCounter = new Mock<IOperationCounter<TimeEntry>>();
+            _controller = new TimeEntryController(_repository.Object,_operationCounter.Object);
+            _operationCounter.Setup(oc => oc.Increment(It.IsAny<TrackedOperation>()));
         }
 
         [Fact]
@@ -33,6 +37,7 @@ namespace PalTrackerTests
 
             Assert.Equal(expected, typedResponse.Value);
             Assert.Equal(200, typedResponse.StatusCode);
+            _operationCounter.Verify(oc => oc.Increment(TrackedOperation.Read), Once);
         }
 
         [Fact]
